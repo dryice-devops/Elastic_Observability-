@@ -1,0 +1,7 @@
+- type: http
+  id: opbeans-java-status
+  name: Opbeans-Java Service Status
+  service.name: opbeans-java-Service
+  urls: ["http://10.1.150.67:31569"]
+  check.response.status: [200]
+  schedule: '@every 5s'

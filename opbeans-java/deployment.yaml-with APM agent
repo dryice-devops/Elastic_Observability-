@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opbeans-java-deployment
+  labels:
+    app: opbeans-java
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opbeans-java
+  template:
+    metadata:
+      labels:
+        app: opbeans-java
+    spec:
+      containers:
+      - name: opbeans-java
+        image: "opbeans/opbeans-java:latest"
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8000
+        env:
+        - name: ELASTIC_APM_SERVICE_NAME
+          value: opbeans-java-k8s
+        - name: ELASTIC_APM_SERVER_URL
+          value: "http://10.1.140.102:8200"
+        - name: ELASTIC_APM_APPLICATION_PACKAGES
+          value: "co.elastic.apm.opbeans"
+        - name: ELASTIC_APM_JS_SERVER_URL
+          value: "http://10.1.140.102:8200"
+        - name: OPBEANS_SERVER_PORT
+          value: "8000"
+        - name: ELASTIC_APM_ENABLE_LOG_CORRELATION
+          value: "true"
+        - name: ELASTIC_APM_ENVIRONMENT
+          value: production

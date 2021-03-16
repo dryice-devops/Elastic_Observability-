@@ -1,0 +1,25 @@
+FROM adoptopenjdk:11-jre-hotspot
+
+RUN export
+RUN apt-get -qq update \
+ && apt-get install --no-install-recommends -y -qq curl \
+ && rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true
+WORKDIR /app
+COPY . ./
+ENV JAVA_OPTS="-Xmx512m"
+LABEL \
+    org.label-schema.schema-version="1.0" \
+    org.label-schema.vendor="Elastic" \
+    org.label-schema.name="opbeans-java" \
+    org.label-schema.version="1.18.1" \
+    org.label-schema.url="https://hub.docker.com/r/opbeans/opbeans-java" \
+    org.label-schema.vcs-url="https://github.com/elastic/opbeans-java" \
+    org.label-schema.license="MIT"
+
+CMD java $JAVA_OPTS -Dspring.profiles.active=${OPBEANS_JAVA_PROFILE:-}\
+                                        -Dserver.port=${OPBEANS_SERVER_PORT:-}\
+                                        -Dserver.address=${OPBEANS_SERVER_ADDRESS:-0.0.0.0}\
+                                        -Dspring.datasource.url=${DATABASE_URL:-}\
+                                        -Dspring.datasource.driverClassName=${DATABASE_DRIVER:-}\
+                                        -Dspring.jpa.database=${DATABASE_DIALECT:-}\
+                                        -jar /app/opbeans-0.0.1-SNAPSHOT.jar

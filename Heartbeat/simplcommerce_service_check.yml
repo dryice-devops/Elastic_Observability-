@@ -1,0 +1,7 @@
+- type: http
+  id: SimplCommerce-status
+  name: SimplCommerce Service Status
+  service.name: SimplCommerce-dotnetcore
+  urls: ["http://10.1.150.66:5000"]
+  check.response.status: [200]
+  schedule: '@every 5s'

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opbeans-java-deployment
+  labels:
+    app: opbeans-java
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opbeans-java
+  template:
+    metadata:
+      labels:
+        app: opbeans-java
+    spec:
+      containers:
+      - name: opbeans-java
+        image: "opbeans/opbeans-java:latest"
+        ports:
+        - containerPort: 8000

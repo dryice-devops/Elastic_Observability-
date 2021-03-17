@@ -1,0 +1,7 @@
+- type: http
+  id: konakart-status
+  name: Konakart Service Status
+  service.name: Konakart-CE-Service
+  urls: ["http://10.1.150.66:8780"]
+  check.response.status: [200]
+  schedule: '@every 5s'

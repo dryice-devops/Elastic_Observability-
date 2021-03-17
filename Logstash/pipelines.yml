@@ -1,0 +1,18 @@
+#- pipeline.id: main 
+#  path.config: "/etc/logstash/conf.d/*.conf" 
+- pipeline.id: beats-server 
+  config.string: | 
+    input { beats { port => 5044 } } 
+    output { 
+        if [source] == 'svcas0062' { 
+          pipeline { send_to => nginxlog } 
+        } else if [source] == 'svcas0060' { 
+          pipeline { send_to => apachelog } 
+        } 
+    } 
+
+- pipeline.id: apachelog-processing 
+  path.config: "/etc/logstash/conf.d/apache_pipeline.conf" 
+
+- pipeline.id: nginxlog-processing 
+  path.config: "/etc/logstash/conf.d/nginx_pipeline.conf" 
